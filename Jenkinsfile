@@ -1,23 +1,15 @@
 pipeline {
     agent any
-
-    tools {
-        maven 'Maven'
-    }
-
-    triggers {
-        githubPush()
-    }
-
     stages {
 
         stage('Checkout') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '4009e931-ec7b-46fc-87fb-36c528f1c27a', url: 'https://github.com/muthyalavinuthna/Java_Maven_Website.git']])
+		checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '4009e931-ec7b-46fc-87fb-36c528f1c27a', url: 'https://github.com/muthyalavinuthna/Java_Maven_Website.git']])
+                
             }
         }
 
-        stage('Build Maven') {
+        stage('Build') {
             steps {
                 sh 'mvn clean package'
             }
@@ -37,9 +29,9 @@ pipeline {
 
         stage('Docker Run') {
             steps {
-                sh 'docker run -d -p 4045:8080 food-webapp'
+                sh 'docker rm -f food-container || true'
+                sh 'docker run -d -p 4045:8080 --name food-container food-webapp'
             }
         }
-
     }
 }
