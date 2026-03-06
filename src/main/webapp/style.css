@@ -1,0 +1,18 @@
+body{
+font-family: Arial;
+text-align:center;
+background-color:#f5f5f5;
+}
+
+.menu{
+display:flex;
+justify-content:center;
+gap:40px;
+}
+
+.item{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
